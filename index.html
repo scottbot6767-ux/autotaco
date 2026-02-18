@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoTaco - Oil Changes & Tacos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF6B35;
+            --red: #D62828;
+            --yellow: #F7B801;
+            --cream: #FFF8F0;
+            --dark: #1A1A1A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 248, 240, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-logo {
+            height: 50px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .nav-cta {
+            background: var(--orange);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 5% 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero-tagline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            line-height: 0.9;
+            color: var(--dark);
+            animation: slideUp 1s ease-out;
+        }
+
+        .hero-tagline .highlight {
+            color: var(--orange);
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            color: #555;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 3px solid var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        /* Marquee */
+        .marquee {
+            background: var(--orange);
+            padding: 1rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: white;
+            padding: 0 2rem;
+        }
+
+        .marquee-item svg {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin: 0 1rem;
+        }
+
+        /* Innovation Section */
+        .innovation {
+            padding: 100px 5%;
+            background: var(--dark);
+            color: white;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .innovation-card {
+            background: rgba(255,255,255,0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .innovation-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .innovation-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--orange);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .innovation-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .innovation-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .innovation-card p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* Services */
+        .services {
+            padding: 100px 5%;
+            background: white;
+        }
+
+        .services .section-title {
+            color: var(--dark);
+        }
+
+        .services-flex {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .services-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .services-image img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .services-list {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .service-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        .service-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-item p {
+            color: #666;
+        }
+
+        .service-time {
+            background: var(--yellow);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        /* Menu */
+        .menu {
+            padding: 100px 5%;
+            background: linear-gradient(135deg, var(--red) 0%, var(--orange) 100%);
+            color: white;
+        }
+
+        .menu-flex {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .menu-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+        }
+
+        .menu-item h3 {
+            font-size: 1.3rem;
+        }
+
+        .menu-item p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .menu-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+        }
+
+        .menu-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .menu-image img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 5%;
+            text-align: center;
+            background: var(--cream);
+        }
+
+        .cta-section .section-title {
+            color: var(--dark);
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--orange);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--orange);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image {
+                margin-top: 3rem;
+            }
+
+            .services-flex,
+            .menu-flex {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <img src="images/logo.png" alt="AutoTaco" class="nav-logo">
+        <ul class="nav-links">
+            <li><a href="#innovation">The Concept</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#locations">Locations</a></li>
+        </ul>
+        <a href="#locations" class="nav-cta">Find a Location</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-tagline">
+                FRESH <span class="highlight">TACOS</span>
+                <br>FRESH <span class="highlight">OIL</span>
+            </h1>
+            <p class="hero-subtitle">
+                The revolutionary quick lube experience. Get your oil changed while enjoying authentic street tacos. It's the wait you'll actually look forward to.
+            </p>
+            <div class="hero-cta">
+                <a href="#locations" class="btn btn-primary">Find Location</a>
+                <a href="#menu" class="btn btn-secondary">View Menu</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="images/hero.png" alt="AutoTaco Experience">
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span class="marquee-item">🌮 OIL CHANGE IN 15 MINUTES</span>
+            <span class="marquee-item">🔧 AUTHENTIC STREET TACOS</span>
+            <span class="marquee-item">🚗 FREE WIFI</span>
+            <span class="marquee-item">🌮 COLD DRINKS</span>
+            <span class="marquee-item">🔧 NO APPOINTMENT NEEDED</span>
+            <span class="marquee-item">🚗 WATCH YOUR SERVICE</span>
+            <span class="marquee-item">🌮 OIL CHANGE IN 15 MINUTES</span>
+            <span class="marquee-item">🔧 AUTHENTIC STREET TACOS</span>
+            <span class="marquee-item">🚗 FREE WIFI</span>
+            <span class="marquee-item">🌮 COLD DRINKS</span>
+            <span class="marquee-item">🔧 NO APPOINTMENT NEEDED</span>
+            <span class="marquee-item">🚗 WATCH YOUR SERVICE</span>
+        </div>
+    </div>
+
+    <!-- Innovation -->
+    <section class="innovation" id="innovation">
+        <h2 class="section-title animate-on-scroll">WHY IT WORKS</h2>
+        <div class="innovation-grid">
+            <div class="innovation-card animate-on-scroll">
+                <div class="innovation-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <h3>The Perfect Wait</h3>
+                <p>Oil changes take 15-20 minutes. That's exactly enough time to enjoy 2-3 delicious tacos. It's not a coincidence—it's innovation.</p>
+            </div>
+            <div class="innovation-card animate-on-scroll">
+                <div class="innovation-icon">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                </div>
+                <h3>Time Well Spent</h3>
+                <p>Stop doom-scrolling in a boring waiting room. Grab a seat at our taqueria counter and watch the action—both on the grill and under the hood.</p>
+            </div>
+            <div class="innovation-card animate-on-scroll">
+                <div class="innovation-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <h3>Two Birds, One Stop</h3>
+                <p>You needed an oil change. You wanted lunch. Now you get both in one trip. That's efficiency. That's AutoTaco.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <h2 class="section-title animate-on-scroll">QUICK LUBE SERVICES</h2>
+        <div class="services-flex">
+            <div class="services-image animate-on-scroll">
+                <img src="images/shop.png" alt="AutoTaco Service Bay">
+            </div>
+            <div class="services-list">
+                <div class="service-item animate-on-scroll">
+                    <span class="service-number">01</span>
+                    <div>
+                        <h3>Oil Change</h3>
+                        <p>Full synthetic, synthetic blend, or conventional. Your choice.</p>
+                        <span class="service-time">~15 min</span>
+                    </div>
+                </div>
+                <div class="service-item animate-on-scroll">
+                    <span class="service-number">02</span>
+                    <div>
+                        <h3>Tire Rotation</h3>
+                        <p>Keep your tires wearing evenly and lasting longer.</p>
+                        <span class="service-time">~20 min</span>
+                    </div>
+                </div>
+                <div class="service-item animate-on-scroll">
+                    <span class="service-number">03</span>
+                    <div>
+                        <h3>Brake Inspection</h3>
+                        <p>Free visual inspection with any service. Safety first.</p>
+                        <span class="service-time">~10 min</span>
+                    </div>
+                </div>
+                <div class="service-item animate-on-scroll">
+                    <span class="service-number">04</span>
+                    <div>
+                        <h3>Fluid Top-Offs</h3>
+                        <p>Coolant, washer fluid, power steering—we check them all.</p>
+                        <span class="service-time">Included</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="menu" id="menu">
+        <h2 class="section-title">THE TACO MENU</h2>
+        <div class="menu-flex">
+            <div class="menu-content">
+                <div class="menu-item animate-on-scroll">
+                    <div>
+                        <h3>Carne Asada</h3>
+                        <p>Grilled steak, cilantro, onion, salsa verde</p>
+                    </div>
+                    <span class="menu-price">$4</span>
+                </div>
+                <div class="menu-item animate-on-scroll">
+                    <div>
+                        <h3>Al Pastor</h3>
+                        <p>Marinated pork, pineapple, cilantro, onion</p>
+                    </div>
+                    <span class="menu-price">$4</span>
+                </div>
+                <div class="menu-item animate-on-scroll">
+                    <div>
+                        <h3>Carnitas</h3>
+                        <p>Slow-cooked pulled pork, pickled onions</p>
+                    </div>
+                    <span class="menu-price">$4</span>
+                </div>
+                <div class="menu-item animate-on-scroll">
+                    <div>
+                        <h3>Pollo Asado</h3>
+                        <p>Grilled chicken, guacamole, queso fresco</p>
+                    </div>
+                    <span class="menu-price">$3.50</span>
+                </div>
+                <div class="menu-item animate-on-scroll">
+                    <div>
+                        <h3>Birria</h3>
+                        <p>Braised beef, consommé for dipping</p>
+                    </div>
+                    <span class="menu-price">$5</span>
+                </div>
+                <div class="menu-item animate-on-scroll">
+                    <div>
+                        <h3>The Full Service</h3>
+                        <p>3 tacos + drink + churro</p>
+                    </div>
+                    <span class="menu-price">$15</span>
+                </div>
+            </div>
+            <div class="menu-image animate-on-scroll">
+                <img src="images/tacos.png" alt="Delicious Tacos">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="locations">
+        <h2 class="section-title animate-on-scroll">COMING TO A HIGHWAY NEAR YOU</h2>
+        <p class="animate-on-scroll">AutoTaco is expanding fast. Join the revolution. Franchise opportunities available.</p>
+        <a href="mailto:franchise@autotaco.com" class="btn btn-primary animate-on-scroll">Get In Touch</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <img src="images/logo.png" alt="AutoTaco" class="footer-logo">
+                <p style="color: rgba(255,255,255,0.7);">Oil changes. Tacos. The perfect combination.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#innovation">The Concept</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#locations">Locations</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Oil Changes</a></li>
+                    <li><a href="#">Tire Rotation</a></li>
+                    <li><a href="#">Fluid Service</a></li>
+                    <li><a href="#">Inspections</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:hello@autotaco.com">hello@autotaco.com</a></li>
+                    <li><a href="tel:1-800-AUTOTACO">1-800-AUTOTACO</a></li>
+                    <li><a href="#">Franchise Inquiries</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 AutoTaco. All rights reserved. | Made with 🌮 and 🔧</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
